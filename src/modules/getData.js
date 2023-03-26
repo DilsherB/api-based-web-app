@@ -1,11 +1,11 @@
 const getData = async (url) => {
-  const basicData = await fetch(url);
-  const jsonFormat = await basicData.json();
-  return jsonFormat;
+  try {
+    const basicData = await fetch(url);
+    if(!basicData.ok) new Error(`HTTP error! status: ${basicData.status}`);
+    return basicData.json();
+  } catch (error) {
+    throw new Error(error);
+  }
 }
 
-const mainAPI = getData('https://api.tvmaze.com/search/shows?q=girls');
-const secAPI = getData('');
-const other = getData('');
-console.log(mainAPI)
-export { mainAPI, secAPI, other };
+export default getData;
